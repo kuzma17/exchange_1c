@@ -4,6 +4,7 @@
 from function import Exchange1c
 import csv
 import time
+import os
 
 ex1c = Exchange1c()
 ex1c.open()
@@ -39,14 +40,29 @@ def updateOrder(path):
 user_list = ex1c.users()
 order_list = ex1c.orders()
 
-if __name__ == "__main__":
-    csv_writer(user_list, "files/output_user.csv")
-    csv_writer(order_list, "files/output_order.csv")
-    updateUser("files/1c_user.csv")
-    updateOrder("files/1c_order.csv")
+#if __name__ == "__main__":
+    #csv_writer(user_list, "files/output_user.csv")
+    #csv_writer(order_list, "files/output_order.csv")
+    #updateUser("files/1c_user.csv")
+    #updateOrder("files/1c_order.csv")
 
 dt = time.strftime("%Y-%m-%d %H:%M", time.localtime())
-ex1c.updateTimeExchange(dt)
+#ex1c.updateTimeExchange(dt)
+
+
+# read files on directory 1c
+files = os.listdir('files/1c')
+fil = sorted(files)
+for f in fil:
+    print 'files/1c'+f
+    try:
+        updateUser("files/1c/" + f)
+    except:
+        continue
+
+# Name file
+file_name = time.strftime("%Y%m%d%H%M", time.localtime())
+print file_name+'_order_site.csv'
 
 ex1c.save()
 ex1c.close()
