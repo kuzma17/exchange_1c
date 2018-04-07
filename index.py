@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from function import Exchange1c
+import os
 import csv
 import time
-import os
+from function import Exchange1c
+
+path_file = '/var/www/exchange_1c/files'
 
 ex1c = Exchange1c()
 ex1c.open()
@@ -40,29 +42,37 @@ def updateOrder(path):
 user_list = ex1c.users()
 order_list = ex1c.orders()
 
-#if __name__ == "__main__":
-    #csv_writer(user_list, "files/output_user.csv")
-    #csv_writer(order_list, "files/output_order.csv")
-    #updateUser("files/1c_user.csv")
-    #updateOrder("files/1c_order.csv")
+dt_file = time.strftime("%Y%m%d%H%M", time.localtime())
+
+if user_list:
+    csv_writer(user_list, path_file+"/site/user/"+dt_file+"_user_site.csv")
+
+if order_list:
+    csv_writer(order_list, path_file+"/site/order/"+dt_file+"_order_site.csv")
+
+file_user = os.listdir(path_file+"/1c/user/")
+file_order = os.listdir(path_file + "/1c/order/")
+
+if len(file_user) > 0:
+    users = sorted(file_user)
+    for user in users:
+        try:
+            updateUser(path_file + "/1c/user/" + user)
+            #os.remove(path_file + "/1c/user/" + user)
+        except:
+            continue
+
+if len(file_order) > 0:
+    orders = sorted(file_order)
+    for order in orders:
+        try:
+            updateOrder(path_file + "/1c/order/" + order)
+            #os.remove(path_file + "/1c/order/" + order)
+        except:
+            continue
 
 dt = time.strftime("%Y-%m-%d %H:%M", time.localtime())
 #ex1c.updateTimeExchange(dt)
-
-
-# read files on directory 1c
-files = os.listdir('files/1c')
-fil = sorted(files)
-for f in fil:
-    print 'files/1c'+f
-    try:
-        updateUser("files/1c/" + f)
-    except:
-        continue
-
-# Name file
-file_name = time.strftime("%Y%m%d%H%M", time.localtime())
-print file_name+'_order_site.csv'
 
 ex1c.save()
 ex1c.close()
