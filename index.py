@@ -71,7 +71,7 @@ if len(file_order) > 0:
         except:
             continue
 
-dt = time.strftime("%Y-%m-%d %H:%M", time.localtime())
+dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 ex1c.updateTimeExchange(dt)
 
 ex1c.save()
