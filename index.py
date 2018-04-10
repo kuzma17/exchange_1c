@@ -42,13 +42,13 @@ def updateOrder(path):
 user_list = ex1c.users()
 order_list = ex1c.orders()
 
-dt_file = time.strftime("%Y%m%d%H%M", time.localtime())
+dt_file = time.strftime("%y%m%d%H%M", time.localtime())
 
 if user_list:
-    csv_writer(user_list, path_file+"/site/user/"+dt_file+"_user_site.csv")
+    csv_writer(user_list, path_file+"/site/user/site_user"+dt_file+".csv")
 
 if order_list:
-    csv_writer(order_list, path_file+"/site/order/"+dt_file+"_order_site.csv")
+    csv_writer(order_list, path_file+"/site/order/site_order"+dt_file+".csv")
 
 file_user = os.listdir(path_file+"/1c/user/")
 file_order = os.listdir(path_file + "/1c/order/")
@@ -58,7 +58,7 @@ if len(file_user) > 0:
     for user in users:
         try:
             updateUser(path_file + "/1c/user/" + user)
-            #os.remove(path_file + "/1c/user/" + user)
+            os.remove(path_file + "/1c/user/" + user)
         except:
             continue
 
@@ -67,12 +67,12 @@ if len(file_order) > 0:
     for order in orders:
         try:
             updateOrder(path_file + "/1c/order/" + order)
-            #os.remove(path_file + "/1c/order/" + order)
+            os.remove(path_file + "/1c/order/" + order)
         except:
             continue
 
 dt = time.strftime("%Y-%m-%d %H:%M", time.localtime())
-#ex1c.updateTimeExchange(dt)
+ex1c.updateTimeExchange(dt)
 
 ex1c.save()
 ex1c.close()
