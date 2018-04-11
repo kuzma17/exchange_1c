@@ -101,8 +101,8 @@ class Exchange1c:
         return orders
 
     def addUser(self, user):
-        sql = "INSERT INTO users SET `name` = %s, email = %s"
-        self.__session.execute(sql, [user[25], user[26]])
+        sql = "INSERT INTO users SET `name` = %s, email = %s, created_at = %s, updated_at = %s"
+        self.__session.execute(sql, [user[25], user[26], user[23], user[24]])
         id = self.__session.lastrowid
 
         user[0] = id
@@ -137,8 +137,8 @@ class Exchange1c:
         #self.save()
 
     def updateUser(self, user):
-        sql = "UPDATE users SET `name` = %s, email = %s WHERE id=%s"
-        self.__session.execute(sql, [user[25], user[26], user[0]])
+        sql = "UPDATE users SET `name` = %s, email = %s, created_at = %s, updated_at = %s WHERE id=%s"
+        self.__session.execute(sql, [user[25], user[26], user[23], user[24], user[0]])
 
         user[25] = user[0]
 
