@@ -82,7 +82,8 @@ class Exchange1c:
               "o.type_payment_id," \
               "o.company_full," \
               "o.edrpou," \
-              "o.inn,code_index," \
+              "o.inn," \
+              "code_index," \
               "o.region," \
               "o.area," \
               "o.city," \
