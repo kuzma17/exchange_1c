@@ -41,6 +41,7 @@ def updateOrder(path):
 
 user_list = ex1c.users()
 order_list = ex1c.orders()
+repair_list = ex1c.repairs()
 
 dt_file = time.strftime("%y%m%d%H%M", time.localtime())
 
@@ -50,8 +51,13 @@ if user_list:
 if order_list:
     csv_writer(order_list, path_file+"/site/order/site_order"+dt_file+".csv")
 
+if repair_list:
+    print 123
+    csv_writer(repair_list, path_file+"/site/repair/site_repair"+dt_file+".csv")
+
 file_user = os.listdir(path_file+"/1c/user/")
 file_order = os.listdir(path_file + "/1c/order/")
+file_repair = os.listdir(path_file + "/1c/repair/")
 
 if len(file_user) > 0:
     users = sorted(file_user)

@@ -70,27 +70,12 @@ class Exchange1c:
               "o.1c_id," \
               "o.1cuser_id," \
               "o.type_order_id," \
-              #"o.type_client_id," \
-              #"o.client_name," \
-              #"o.user_company," \
-              #"o.phone," \
+              "o.type_payment_id," \
               "o.delivery_town," \
               "o.delivery_street," \
               "o.delivery_house," \
               "o.delivery_house_block," \
               "o.delivery_office," \
-              "o.type_payment_id," \
-              #"o.company_full," \
-              #"o.edrpou," \
-              #"o.inn," \
-              #"code_index," \
-              #"o.region," \
-              #"o.area," \
-              #"o.city," \
-              #"o.street," \
-              #"o.house," \
-              #"o.house_block," \
-              #"o.office," \
               "o.comment," \
               "o.status_id," \
               "o.created_at," \
@@ -100,6 +85,28 @@ class Exchange1c:
         self.__session.execute(sql)
         orders = self.__session.fetchall()
         return orders
+
+    def repairs(self):
+        sql = "SELECT " \
+              "r.id," \
+              "r.order_id," \
+              "r.1c_id," \
+              "r.1corder_id," \
+              "r.status_repair_id," \
+              "r.device," \
+              "r.set_device," \
+              "r.text_defect," \
+              "r.diagnostic," \
+              "r.cost," \
+              "r.comment," \
+              "r.user_consent_id," \
+              "r.created_at," \
+              "r.updated_at " \
+              "FROM exchanges AS e, act_repairs AS r " \
+              "WHERE r.updated_at > e.exchange"
+        self.__session.execute(sql)
+        repairs = self.__session.fetchall()
+        return repairs
 
     def addUser(self, user):
         sql = "INSERT INTO users SET `name` = %s, email = %s, created_at = %s, updated_at = %s"
@@ -179,33 +186,18 @@ class Exchange1c:
               "1c_id = %s," \
               "1cuser_id = %s," \
               "type_order_id = %s," \
-              #"type_client_id = %s," \
-              #"client_name = %s," \
-              #"user_company = %s," \
-              #"phone = %s," \
+              "type_payment_id = %s," \
               "delivery_town = %s," \
               "delivery_street = %s," \
               "delivery_house = %s," \
               "delivery_house_block = %s," \
               "delivery_office = %s," \
-              "type_payment_id = %s," \
-              #"company_full = %s," \
-              #"edrpou = %s," \
-              #"inn = %s," \
-              #"code_index = %s," \
-              #"region = %s," \
-              #"area = %s," \
-              #"city = %s," \
-              #"street = %s," \
-              #"house = %s," \
-              #"house_block = %s," \
-              #"office = %s," \
               "comment = %s," \
               "status_id = %s," \
               "created_at = %s," \
               "updated_at = %s"
 
-        self.__session.execute(sql, order[1:30])
+        self.__session.execute(sql, order[1:])
         #self.save()
 
     def updateOrder(self, order):
@@ -215,27 +207,12 @@ class Exchange1c:
               "1c_id = %s," \
               "1cuser_id = %s," \
               "type_order_id = %s," \
-              #"type_client_id = %s," \
-              #"client_name = %s," \
-              #"user_company = %s," \
-              #"phone = %s," \
+              "type_payment_id = %s," \
               "delivery_town = %s," \
               "delivery_street = %s," \
               "delivery_house = %s," \
               "delivery_house_block = %s," \
               "delivery_office = %s," \
-              "type_payment_id = %s," \
-              #"company_full = %s," \
-              #"edrpou = %s," \
-              #"inn = %s," \
-              #"code_index = %s," \
-              #"region = %s," \
-              #"area = %s," \
-              #"city = %s," \
-              #"street = %s," \
-              #"house = %s," \
-              #"house_block = %s," \
-              #"office = %s," \
               "comment = %s," \
               "status_id = %s," \
               "created_at = %s," \
