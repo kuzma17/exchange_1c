@@ -222,6 +222,44 @@ class Exchange1c:
         self.__session.execute(sql, order[1:])
         #self.save()
 
+    def addRepair(self, repair):
+        sql = "INSERT INTO act_repairs SET " \
+              "order_id = %s," \
+              "1c_id = %s," \
+              "1corder_id = %s," \
+              "status_repair_id = %s," \
+              "device = %s," \
+              "set_device = %s," \
+              "text_defect = %s," \
+              "diagnostic = %s," \
+              "cost = %s," \
+              "comment = %s," \
+              "user_consent_id = %s," \
+              "created_at = %s," \
+              "updated_at = %s"
+
+        self.__session.execute(sql, repair[1:])
+
+    def updateRepair(self, repair):
+        repair.append(repair[0])
+        sql = "UPDATE act_repairs SET " \
+              "order_id = %s," \
+              "1c_id = %s," \
+              "1corder_id = %s," \
+              "status_repair_id = %s," \
+              "device = %s," \
+              "set_device = %s," \
+              "text_defect = %s," \
+              "diagnostic = %s," \
+              "cost = %s," \
+              "comment = %s," \
+              "user_consent_id = %s," \
+              "created_at = %s," \
+              "updated_at = %s " \
+              "WHERE id = %s"
+
+        self.__session.execute(sql, repair[1:])
+
     def updateTimeExchange(self, time_exchange):
         sql = "UPDATE exchanges SET exchange = %s WHERE id = 1"
         self.__session.execute(sql, [time_exchange])

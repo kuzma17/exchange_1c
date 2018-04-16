@@ -39,6 +39,17 @@ def updateOrder(path):
                 print 'insert'
                 ex1c.addOrder(row)
 
+def updateRepair(path):
+    with open(path, "r") as file_obj:
+        reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
+        for row in reader:
+            if row[0]:
+                print 'update'
+                ex1c.updateRepair(row)
+            else:
+                print 'insert'
+                ex1c.addRepair(row)
+
 user_list = ex1c.users()
 order_list = ex1c.orders()
 repair_list = ex1c.repairs()
@@ -74,6 +85,15 @@ if len(file_order) > 0:
         try:
             updateOrder(path_file + "/1c/order/" + order)
             os.remove(path_file + "/1c/order/" + order)
+        except:
+            continue
+
+if len(file_repair) > 0:
+    repairs = sorted(file_repair)
+    for repair in repairs:
+        try:
+            updateRepair(path_file + "/1c/repair/" + repair)
+            os.remove(path_file + "/1c/repair/" + repair)
         except:
             continue
 
