@@ -63,7 +63,6 @@ if order_list:
     csv_writer(order_list, path_file+"/site/order/site_order"+dt_file+".csv")
 
 if repair_list:
-    print 123
     csv_writer(repair_list, path_file+"/site/repair/site_repair"+dt_file+".csv")
 
 file_user = os.listdir(path_file+"/1c/user/")

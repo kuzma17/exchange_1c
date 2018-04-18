@@ -33,6 +33,7 @@ class Exchange1c:
               "p.1c_id," \
               "p.type_client_id," \
               "p.type_payment_id," \
+              "p.office_id," \
               "p.client_name," \
               "p.delivery_town," \
               "p.delivery_street," \
@@ -71,6 +72,7 @@ class Exchange1c:
               "o.1cuser_id," \
               "o.type_order_id," \
               "o.type_payment_id," \
+              "o.office_id," \
               "o.delivery_town," \
               "o.delivery_street," \
               "o.delivery_house," \
@@ -110,15 +112,15 @@ class Exchange1c:
 
     def addUser(self, user):
         sql = "INSERT INTO users SET `name` = %s, email = %s, created_at = %s, updated_at = %s"
-        self.__session.execute(sql, [user[25], user[26], user[23], user[24]])
+        self.__session.execute(sql, [user[26], user[27], user[24], user[25]])
         id = self.__session.lastrowid
-
         user[0] = id
         sql = "INSERT INTO user_profiles SET " \
               "user_id = %s," \
               "1c_id = %s," \
               "type_client_id = %s, " \
               "type_payment_id = %s," \
+              "office_id = %s," \
               "client_name = %s," \
               "delivery_town = %s," \
               "delivery_street = %s," \
@@ -139,21 +141,18 @@ class Exchange1c:
               "house_block = %s," \
               "office = %s," \
               "created_at = %s," \
-              "updated_at = %s" \
-
-        self.__session.execute(sql, user[:25])
-        #self.save()
+              "updated_at = %s"
+        self.__session.execute(sql, user[:26])
 
     def updateUser(self, user):
         sql = "UPDATE users SET `name` = %s, email = %s, created_at = %s, updated_at = %s WHERE id=%s"
-        self.__session.execute(sql, [user[25], user[26], user[23], user[24], user[0]])
-
-        user[25] = user[0]
-
+        self.__session.execute(sql, [user[26], user[27], user[24], user[25], user[0]])
+        user[26] = user[0]
         sql = "UPDATE user_profiles SET " \
               "1c_id = %s," \
               "type_client_id = %s, " \
               "type_payment_id = %s," \
+              "office_id = %s," \
               "client_name = %s," \
               "delivery_town = %s," \
               "delivery_street = %s," \
@@ -176,9 +175,7 @@ class Exchange1c:
               "created_at = %s," \
               "updated_at = %s " \
               "WHERE user_id = %s"
-
-        self.__session.execute(sql, user[1:26])
-        #self.save()
+        self.__session.execute(sql, user[1:27])
 
     def addOrder(self, order):
         sql = "INSERT INTO orders SET " \
@@ -187,6 +184,7 @@ class Exchange1c:
               "1cuser_id = %s," \
               "type_order_id = %s," \
               "type_payment_id = %s," \
+              "office_id = %s," \
               "delivery_town = %s," \
               "delivery_street = %s," \
               "delivery_house = %s," \
@@ -196,9 +194,7 @@ class Exchange1c:
               "status_id = %s," \
               "created_at = %s," \
               "updated_at = %s"
-
         self.__session.execute(sql, order[1:])
-        #self.save()
 
     def updateOrder(self, order):
         order.append(order[0])
@@ -208,6 +204,7 @@ class Exchange1c:
               "1cuser_id = %s," \
               "type_order_id = %s," \
               "type_payment_id = %s," \
+              "office_id = %s," \
               "delivery_town = %s," \
               "delivery_street = %s," \
               "delivery_house = %s," \
@@ -218,9 +215,7 @@ class Exchange1c:
               "created_at = %s," \
               "updated_at = %s " \
               "WHERE id = %s"
-
         self.__session.execute(sql, order[1:])
-        #self.save()
 
     def addRepair(self, repair):
         sql = "INSERT INTO act_repairs SET " \
@@ -237,7 +232,6 @@ class Exchange1c:
               "user_consent_id = %s," \
               "created_at = %s," \
               "updated_at = %s"
-
         self.__session.execute(sql, repair[1:])
 
     def updateRepair(self, repair):
@@ -257,7 +251,6 @@ class Exchange1c:
               "created_at = %s," \
               "updated_at = %s " \
               "WHERE id = %s"
-
         self.__session.execute(sql, repair[1:])
 
     def updateTimeExchange(self, time_exchange):
