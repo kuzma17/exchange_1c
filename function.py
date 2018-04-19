@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import MySQLdb
+import time
 
 class Exchange1c:
     __host = '127.0.0.1'
@@ -26,6 +27,10 @@ class Exchange1c:
     def close(self):
         self.__session.close()
         self.__connection.close()
+
+    def current_time(self):
+        dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        return dt
 
     def users(self):
         sql = "SELECT " \
@@ -53,12 +58,10 @@ class Exchange1c:
               "p.house," \
               "p.house_block," \
               "p.office," \
-              "p.created_at," \
-              "p.updated_at," \
               "u.name," \
               "u.email " \
               "FROM exchanges AS e, users AS u " \
-              "LEFT JOIN user_profiles as p ON p.user_id = u.id " \
+              "INNER JOIN user_profiles as p ON p.user_id = u.id " \
               "WHERE u.updated_at > e.exchange OR p.updated_at > e.exchange"
         self.__session.execute(sql)
         users = self.__session.fetchall()
@@ -79,9 +82,7 @@ class Exchange1c:
               "o.delivery_house_block," \
               "o.delivery_office," \
               "o.comment," \
-              "o.status_id," \
-              "o.created_at," \
-              "o.updated_at " \
+              "o.status_id " \
               "FROM exchanges AS e, orders AS o " \
               "WHERE o.updated_at > e.exchange"
         self.__session.execute(sql)
@@ -101,9 +102,7 @@ class Exchange1c:
               "r.diagnostic," \
               "r.cost," \
               "r.comment," \
-              "r.user_consent_id," \
-              "r.created_at," \
-              "r.updated_at " \
+              "r.user_consent_id " \
               "FROM exchanges AS e, act_repairs AS r " \
               "WHERE r.updated_at > e.exchange"
         self.__session.execute(sql)
@@ -111,10 +110,13 @@ class Exchange1c:
         return repairs
 
     def addUser(self, user):
+        dt = self.current_time()
         sql = "INSERT INTO users SET `name` = %s, email = %s, created_at = %s, updated_at = %s"
-        self.__session.execute(sql, [user[26], user[27], user[24], user[25]])
+        self.__session.execute(sql, [user[24], user[25], dt, dt])
         id = self.__session.lastrowid
         user[0] = id
+        user[24] = dt
+        user[25] = dt
         sql = "INSERT INTO user_profiles SET " \
               "user_id = %s," \
               "1c_id = %s," \
@@ -142,12 +144,14 @@ class Exchange1c:
               "office = %s," \
               "created_at = %s," \
               "updated_at = %s"
-        self.__session.execute(sql, user[:26])
+        self.__session.execute(sql, user)
 
     def updateUser(self, user):
-        sql = "UPDATE users SET `name` = %s, email = %s, created_at = %s, updated_at = %s WHERE id=%s"
-        self.__session.execute(sql, [user[26], user[27], user[24], user[25], user[0]])
-        user[26] = user[0]
+        dt = self.current_time()
+        sql = "UPDATE users SET `name` = %s, email = %s, updated_at = %s WHERE id=%s"
+        self.__session.execute(sql, [user[24], user[25], dt, user[0]])
+        user[24] = dt
+        user[25] = user[0]
         sql = "UPDATE user_profiles SET " \
               "1c_id = %s," \
               "type_client_id = %s, " \
@@ -172,12 +176,14 @@ class Exchange1c:
               "house = %s," \
               "house_block = %s," \
               "office = %s," \
-              "created_at = %s," \
               "updated_at = %s " \
               "WHERE user_id = %s"
-        self.__session.execute(sql, user[1:27])
+        self.__session.execute(sql, user[1:])
 
     def addOrder(self, order):
+        dt = self.current_time()
+        order.append(dt)
+        order.append(dt)
         sql = "INSERT INTO orders SET " \
               "user_id = %s," \
               "1c_id = %s," \
@@ -197,6 +203,8 @@ class Exchange1c:
         self.__session.execute(sql, order[1:])
 
     def updateOrder(self, order):
+        dt = self.current_time()
+        order.append(dt)
         order.append(order[0])
         sql = "UPDATE orders SET " \
               "user_id = %s," \
@@ -212,12 +220,14 @@ class Exchange1c:
               "delivery_office = %s," \
               "comment = %s," \
               "status_id = %s," \
-              "created_at = %s," \
               "updated_at = %s " \
               "WHERE id = %s"
         self.__session.execute(sql, order[1:])
 
     def addRepair(self, repair):
+        dt = self.current_time()
+        repair.append(dt)
+        repair.append(dt)
         sql = "INSERT INTO act_repairs SET " \
               "order_id = %s," \
               "1c_id = %s," \
@@ -235,6 +245,8 @@ class Exchange1c:
         self.__session.execute(sql, repair[1:])
 
     def updateRepair(self, repair):
+        dt = self.current_time()
+        repair.append(dt)
         repair.append(repair[0])
         sql = "UPDATE act_repairs SET " \
               "order_id = %s," \
@@ -248,7 +260,6 @@ class Exchange1c:
               "cost = %s," \
               "comment = %s," \
               "user_consent_id = %s," \
-              "created_at = %s," \
               "updated_at = %s " \
               "WHERE id = %s"
         self.__session.execute(sql, repair[1:])
