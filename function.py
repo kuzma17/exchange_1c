@@ -91,7 +91,8 @@ class Exchange1c:
 
     def repairs(self):
         sql = "SELECT " \
-              "r.id, " \
+              "r.id," \
+              "r.1c_id," \
               "r.order_id," \
               "r.status_repair_id," \
               "r.device," \
@@ -227,6 +228,7 @@ class Exchange1c:
         repair.append(dt)
         repair.append(dt)
         sql = "INSERT INTO act_repairs SET " \
+              "1c_id = %s," \
               "order_id = %s," \
               "status_repair_id = %s," \
               "device = %s," \
@@ -245,6 +247,7 @@ class Exchange1c:
         repair.append(dt)
         repair.append(repair[0])
         sql = "UPDATE act_repairs SET " \
+              "1c_id = %s," \
               "order_id = %s," \
               "status_repair_id = %s," \
               "device = %s," \
