@@ -108,6 +108,24 @@ class Exchange1c:
         repairs = self.__session.fetchall()
         return repairs
 
+    def orderSet(self, order):
+        id_1c = 'none'
+        if not order[0]:
+            order[0] = 0
+        if order[2]:
+            id_1c = order[2]
+        sql = "SELECT id FROM orders WHERE id = %s OR 1c_id = %s"
+        self.__session.execute(sql, [order[0], id_1c])
+        row = self.__session.fetchone()
+        #print row
+        if row:
+            #print 'update'
+            self.updateOrder(order)
+        else:
+            #print 'insert'
+            self.addOrder(order)
+
+
     def addUser(self, user):
         dt = self.current_time()
         sql = "INSERT INTO users SET `name` = %s, email = %s, created_at = %s, updated_at = %s"
@@ -205,6 +223,7 @@ class Exchange1c:
         dt = self.current_time()
         order.append(dt)
         order.append(order[0])
+        order.append(order[2])
         sql = "UPDATE orders SET " \
               "user_id = %s," \
               "1c_id = %s," \
@@ -220,7 +239,7 @@ class Exchange1c:
               "comment = %s," \
               "status_id = %s," \
               "updated_at = %s " \
-              "WHERE id = %s"
+              "WHERE id = %s OR 1c_id = %s"
         self.__session.execute(sql, order[1:])
 
     def addRepair(self, repair):

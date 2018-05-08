@@ -22,32 +22,33 @@ def updateUser(path):
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
             if row[0]:
-                print 'update'
+                print 'update user'
                 ex1c.updateUser(row)
             else:
-                print 'insert'
+                print 'insert user'
                 ex1c.addUser(row)
 
 def updateOrder(path):
     with open(path, "r") as file_obj:
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
-            if row[0]:
-                print 'update'
-                ex1c.updateOrder(row)
-            else:
-                print 'insert'
-                ex1c.addOrder(row)
+            ex1c.orderSet(row)
+            #if row[0] or row[2]:
+             #   print 'update order'
+              #  ex1c.updateOrder(row)
+            #else:
+             #   print 'insert order'
+              #  ex1c.addOrder(row)
 
 def updateRepair(path):
     with open(path, "r") as file_obj:
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
             if row[0]:
-                print 'update'
+                print 'update repair'
                 ex1c.updateRepair(row)
             else:
-                print 'insert'
+                print 'insert repair'
                 ex1c.addRepair(row)
 
 user_list = ex1c.users()
