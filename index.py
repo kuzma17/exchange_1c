@@ -21,12 +21,13 @@ def updateUser(path):
     with open(path, "r") as file_obj:
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
-            if row[0]:
-                print 'update user'
-                ex1c.updateUser(row)
-            else:
-                print 'insert user'
-                ex1c.addUser(row)
+            ex1c.userSet(row)
+           # if row[0]:
+            #    print 'update user'
+             #   ex1c.updateUser(row)
+            #else:
+             #   print 'insert user'
+              #  ex1c.addUser(row)
 
 def updateOrder(path):
     with open(path, "r") as file_obj:
@@ -44,12 +45,13 @@ def updateRepair(path):
     with open(path, "r") as file_obj:
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
-            if row[0]:
-                print 'update repair'
-                ex1c.updateRepair(row)
-            else:
-                print 'insert repair'
-                ex1c.addRepair(row)
+            ex1c.repairSet(row)
+            #if row[0]:
+             #   print 'update repair'
+              #  ex1c.updateRepair(row)
+            #else:
+             #   print 'insert repair'
+              #  ex1c.addRepair(row)
 
 user_list = ex1c.users()
 order_list = ex1c.orders()
@@ -80,6 +82,7 @@ if len(file_user) > 0:
     users = sorted(file_user)
     for user in users:
         updateUser(path_file + "/1c/user/" + user)
+        os.remove(path_file + "/1c/user/" + user)
         #try:
          #   updateUser(path_file + "/1c/user/" + user)
           #  os.remove(path_file + "/1c/user/" + user)
@@ -90,6 +93,7 @@ if len(file_order) > 0:
     orders = sorted(file_order)
     for order in orders:
         updateOrder(path_file + "/1c/order/" + order)
+        os.remove(path_file + "/1c/order/" + order)
         #try:
          #   updateOrder(path_file + "/1c/order/" + order)
           #  os.remove(path_file + "/1c/order/" + order)
@@ -100,6 +104,7 @@ if len(file_repair) > 0:
     repairs = sorted(file_repair)
     for repair in repairs:
         updateRepair(path_file + "/1c/repair/" + repair)
+        os.remove(path_file + "/1c/repair/" + repair)
         #try:
          #   updateRepair(path_file + "/1c/repair/" + repair)
           #  os.remove(path_file + "/1c/repair/" + repair)

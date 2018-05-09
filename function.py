@@ -108,6 +108,27 @@ class Exchange1c:
         repairs = self.__session.fetchall()
         return repairs
 
+    def userSet(self, user):
+        id_1c = 'none'
+        if not user[0]:
+            user[0] = 0
+        if user[1]:
+            id_1c = user[1]
+        sql = "SELECT id FROM users WHERE id = %s"
+        self.__session.execute(sql, [user[0]])
+        row_user = self.__session.fetchone()
+        sql = "SELECT id, user_id FROM user_profiles WHERE 1c_id = %s"
+        self.__session.execute(sql, [id_1c])
+        row_profile = self.__session.fetchall()
+        if row_profile and row_profile[0][1]:
+            user[0] = row_profile[0][1]
+        if row_user or row_profile:
+            self.updateUser(user)
+            print 'update user ' + str(user).encode("UTF-8")
+        else:
+            self.addUser(user)
+            print 'insert user ' + str(user)
+
     def orderSet(self, order):
         id_1c = 'none'
         if not order[0]:
@@ -117,14 +138,28 @@ class Exchange1c:
         sql = "SELECT id FROM orders WHERE id = %s OR 1c_id = %s"
         self.__session.execute(sql, [order[0], id_1c])
         row = self.__session.fetchone()
-        #print row
         if row:
-            #print 'update'
             self.updateOrder(order)
+            print 'update order ' + str(order)
         else:
-            #print 'insert'
             self.addOrder(order)
+            print 'insert order ' + str(order)
 
+    def repairSet(self, repair):
+        id_1c = 'none'
+        if not repair[0]:
+            repair[0] = 0
+        if repair[1]:
+            id_1c = repair[1]
+        sql = "SELECT id FROM act_repairs WHERE id = %s OR 1c_id = %s"
+        self.__session.execute(sql, [repair[0], id_1c])
+        row = self.__session.fetchone()
+        if row:
+            self.updateRepair(repair)
+            print 'update repair ' + str(repair)
+        else:
+            self.addRepair(repair)
+            print 'insert repair ' + str(repair)
 
     def addUser(self, user):
         dt = self.current_time()
@@ -169,6 +204,7 @@ class Exchange1c:
         self.__session.execute(sql, [user[24], user[25], dt, user[0]])
         user[24] = dt
         user[25] = user[0]
+        user.append(user[1])
         sql = "UPDATE user_profiles SET " \
               "1c_id = %s," \
               "type_client_id = %s, " \
@@ -194,7 +230,7 @@ class Exchange1c:
               "house_block = %s," \
               "office = %s," \
               "updated_at = %s " \
-              "WHERE user_id = %s"
+              "WHERE user_id = %s OR 1c_id = %s"
         self.__session.execute(sql, user[1:])
 
     def addOrder(self, order):
@@ -265,6 +301,7 @@ class Exchange1c:
         dt = self.current_time()
         repair.append(dt)
         repair.append(repair[0])
+        repair.append(repair[1])
         sql = "UPDATE act_repairs SET " \
               "1c_id = %s," \
               "order_id = %s," \
@@ -277,7 +314,7 @@ class Exchange1c:
               "comment = %s," \
               "user_consent_id = %s," \
               "updated_at = %s " \
-              "WHERE id = %s"
+              "WHERE id = %s OR 1c_id = %s"
         self.__session.execute(sql, repair[1:])
 
     def updateTimeExchange(self, time_exchange):
