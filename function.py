@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import MySQLdb
-import time
+#import time
 
 class Exchange1c:
     __host = '127.0.0.1'
@@ -28,9 +28,9 @@ class Exchange1c:
         self.__session.close()
         self.__connection.close()
 
-    def current_time(self):
-        dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        return dt
+   # def current_time(self):
+    #    dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+     #   return dt
 
     def users(self):
         sql = "SELECT " \
@@ -162,13 +162,13 @@ class Exchange1c:
             print 'insert repair ' + str(repair)
 
     def addUser(self, user):
-        dt = self.current_time()
-        sql = "INSERT INTO users SET `name` = %s, email = %s, created_at = %s, updated_at = %s"
-        self.__session.execute(sql, [user[24], user[25], dt, dt])
+       # dt = self.current_time()
+        sql = "INSERT INTO users SET `name` = %s, email = %s, created_at = NOW(), updated_at = NOW()"
+        self.__session.execute(sql, [user[24], user[25]])
         id = self.__session.lastrowid
         user[0] = id
-        user[24] = dt
-        user[25] = dt
+        #user[24] = dt
+        #user[25] = dt
         sql = "INSERT INTO user_profiles SET " \
               "user_id = %s," \
               "1c_id = %s," \
@@ -194,17 +194,17 @@ class Exchange1c:
               "house = %s," \
               "house_block = %s," \
               "office = %s," \
-              "created_at = %s," \
-              "updated_at = %s"
-        self.__session.execute(sql, user)
+              "created_at = NOW()," \
+              "updated_at = NOW()"
+        self.__session.execute(sql, user[:24])
 
     def updateUser(self, user):
-        dt = self.current_time()
-        sql = "UPDATE users SET `name` = %s, email = %s, updated_at = %s WHERE id=%s"
-        self.__session.execute(sql, [user[24], user[25], dt, user[0]])
-        user[24] = dt
-        user[25] = user[0]
-        user.append(user[1])
+        #dt = self.current_time()
+        sql = "UPDATE users SET `name` = %s, email = %s, updated_at = NOW() WHERE id=%s"
+        self.__session.execute(sql, [user[24], user[25], user[0]])
+        user[24] = user[0]
+        user[25] = user[1]
+        #user.append(user[1])
         sql = "UPDATE user_profiles SET " \
               "1c_id = %s," \
               "type_client_id = %s, " \
@@ -229,14 +229,14 @@ class Exchange1c:
               "house = %s," \
               "house_block = %s," \
               "office = %s," \
-              "updated_at = %s " \
+              "updated_at = NOW() " \
               "WHERE user_id = %s OR 1c_id = %s"
         self.__session.execute(sql, user[1:])
 
     def addOrder(self, order):
-        dt = self.current_time()
-        order.append(dt)
-        order.append(dt)
+        #dt = self.current_time()
+        #order.append(dt)
+        #order.append(dt)
         sql = "INSERT INTO orders SET " \
               "user_id = %s," \
               "1c_id = %s," \
@@ -251,13 +251,13 @@ class Exchange1c:
               "delivery_office = %s," \
               "comment = %s," \
               "status_id = %s," \
-              "created_at = %s," \
-              "updated_at = %s"
+              "created_at = NOW()," \
+              "updated_at = NOW()"
         self.__session.execute(sql, order[1:])
 
     def updateOrder(self, order):
-        dt = self.current_time()
-        order.append(dt)
+        #dt = self.current_time()
+        #order.append(dt)
         order.append(order[0])
         order.append(order[2])
         sql = "UPDATE orders SET " \
@@ -274,14 +274,14 @@ class Exchange1c:
               "delivery_office = %s," \
               "comment = %s," \
               "status_id = %s," \
-              "updated_at = %s " \
+              "updated_at = NOW() " \
               "WHERE id = %s OR 1c_id = %s"
         self.__session.execute(sql, order[1:])
 
     def addRepair(self, repair):
-        dt = self.current_time()
-        repair.append(dt)
-        repair.append(dt)
+        #dt = self.current_time()
+        #repair.append(dt)
+        #repair.append(dt)
         sql = "INSERT INTO act_repairs SET " \
               "1c_id = %s," \
               "order_id = %s," \
@@ -293,13 +293,13 @@ class Exchange1c:
               "cost = %s," \
               "comment = %s," \
               "user_consent_id = %s," \
-              "created_at = %s," \
-              "updated_at = %s"
+              "created_at = NOW()," \
+              "updated_at = NOW()"
         self.__session.execute(sql, repair[1:])
 
     def updateRepair(self, repair):
-        dt = self.current_time()
-        repair.append(dt)
+        #dt = self.current_time()
+        #repair.append(dt)
         repair.append(repair[0])
         repair.append(repair[1])
         sql = "UPDATE act_repairs SET " \
@@ -313,7 +313,7 @@ class Exchange1c:
               "cost = %s," \
               "comment = %s," \
               "user_consent_id = %s," \
-              "updated_at = %s " \
+              "updated_at = NOW() " \
               "WHERE id = %s OR 1c_id = %s"
         self.__session.execute(sql, repair[1:])
 
