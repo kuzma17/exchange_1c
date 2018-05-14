@@ -317,6 +317,6 @@ class Exchange1c:
               "WHERE id = %s OR 1c_id = %s"
         self.__session.execute(sql, repair[1:])
 
-    def updateTimeExchange(self, time_exchange):
-        sql = "UPDATE exchanges SET exchange = %s WHERE id = 1"
-        self.__session.execute(sql, [time_exchange])
+    def updateTimeExchange(self):
+        sql = "UPDATE exchanges SET exchange = NOW() WHERE id = 1"
+        self.__session.execute(sql)

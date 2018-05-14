@@ -111,8 +111,8 @@ if len(file_repair) > 0:
         #except:
          #   continue
 
-dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-ex1c.updateTimeExchange(dt)
+#dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+ex1c.updateTimeExchange()
 
 ex1c.save()
 ex1c.close()
