@@ -22,36 +22,18 @@ def updateUser(path):
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
             ex1c.userSet(row)
-           # if row[0]:
-            #    print 'update user'
-             #   ex1c.updateUser(row)
-            #else:
-             #   print 'insert user'
-              #  ex1c.addUser(row)
 
 def updateOrder(path):
     with open(path, "r") as file_obj:
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
             ex1c.orderSet(row)
-            #if row[0] or row[2]:
-             #   print 'update order'
-              #  ex1c.updateOrder(row)
-            #else:
-             #   print 'insert order'
-              #  ex1c.addOrder(row)
 
 def updateRepair(path):
     with open(path, "r") as file_obj:
         reader = csv.reader(file_obj, delimiter=ex1c.delimiter)
         for row in reader:
             ex1c.repairSet(row)
-            #if row[0]:
-             #   print 'update repair'
-              #  ex1c.updateRepair(row)
-            #else:
-             #   print 'insert repair'
-              #  ex1c.addRepair(row)
 
 user_list = ex1c.users()
 order_list = ex1c.orders()
@@ -111,7 +93,6 @@ if len(file_repair) > 0:
         #except:
          #   continue
 
-#dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 ex1c.updateTimeExchange()
 
 ex1c.save()
