@@ -7,7 +7,7 @@ import pymysql
 class Exchange1c:
     __host = '127.0.0.1'
     __user = 'admin'
-    __password = '170270'
+    __password = 'Fort347584'
     __database = 'sint_odessa'
     __session = None
     __connection = None
