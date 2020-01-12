@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import MySQLdb
+#import MySQLdb
+import pymysql
 
 class Exchange1c:
     __host = '127.0.0.1'
