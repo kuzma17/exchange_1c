@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 #import MySQLdb
@@ -6,27 +6,21 @@ import pymysql
 
 class Exchange1c:
     __host = '127.0.0.1'
-    __user = 'root'
+    __user = 'admin'
     __password = '170270'
     __database = 'sint_odessa'
     __session = None
     __connection = None
     delimiter = ';'
 
-    #def open(self):
-     #   try:
-      #      con = MySQLdb.connect(self.__host, self.__user, self.__password, self.__database, charset='utf8', use_unicode=False)
-       #     self.__connection = con
-        #    self.__session = con.cursor()
-        #except MySQLdb.Error as e:
-         #   print "Error %d: %s" % (e.args[0], e.args[1])
-
     def open(self):
         try:
+            #con = MySQLdb.connect(self.__host, self.__user, self.__password, self.__database, charset='utf8', use_unicode=False)
             con = pymysql.connect(self.__host, self.__user, self.__password, self.__database, charset='utf8', use_unicode=False)
             self.__connection = con
             self.__session = con.cursor()
         except pymysql.Error as e:
+            #print "Error %d: %s" % (e.args[0], e.args[1])
             print "Error %d: %s" % (e.args[0], e.args[1])
 
     def save(self):

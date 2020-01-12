@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import os
@@ -6,7 +6,7 @@ import csv
 import time
 from function import Exchange1c
 
-path_file = '/var/www/exchange_1c/files'
+path_file = '/var/www/html/exchange_1c/files'
 
 ex1c = Exchange1c()
 ex1c.open()
